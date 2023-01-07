@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const scrapeYt = require("scrape-yt");
+const ytScraper = require("yt-scraper")
 
 const app = express();
 const port = 4000;
@@ -11,17 +11,18 @@ app.use(bodyParser.json());
 
 
 app.get('/getVideo/', async (req, res) => {
-    var url = req.query.id;
-    console.log(url);
+var url = req.query.id;
+console.log(url);
 
-    var slug = url.substring(url.indexOf("=") + 1, url.length);
-    console.log(slug);
-    try {
-        var x = await scrapeYt.getVideo(slug);
-        res.status(200).json(x);
-    } catch (e) {
-        res.status(500).json({ "error": JSON.stringify(e) });
-    }
+var slug = url.substring(url.indexOf("=") + 1, url.length);
+console.log(slug);
+try {
+var x = await ytScraper.videoInfo(slug);
+res.status(200).json(x);
+} catch (e) {
+console.log(slug);
+res.status(500).json({ "error": JSON.stringify(e) });
+}
 
 });
 
